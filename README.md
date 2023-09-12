@@ -35,8 +35,13 @@ To start in development mode:
 
  ![Alt text](image-1.png)
 
+  - We can add new users and select their groups:
+
+  ![Alt text](image-2.png)
+
  ## Points of improvement
 
+ - There is an error when trying ot edit an existing user, where the same group is selectable again.
  - All the mock async functiona resolve successfully after a timeout. In real life, we would need to implement proper error handling (Note that type AsyncOp) supports both success and error.
  - Lists have no pagination
  - No testing was added.

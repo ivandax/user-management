@@ -84,7 +84,7 @@ function EditUser(): JSX.Element {
             await editUser({
                 ...persistedUser.data,
                 name: userName,
-                groupIds: selectedGroups.map((string) => parseInt(string)),
+                groupIds: [0, ...selectedGroups.map((string) => parseInt(string))],
             });
             setEditUserTask({ status: "successful", data: null });
             navigate("/users");
