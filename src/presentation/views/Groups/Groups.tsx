@@ -15,11 +15,10 @@ import { Header } from "presentation/components/Header/Header";
 import { ViewContainer } from "presentation/components/ViewContainer/ViewContainer";
 import { LoadingOverlay } from "presentation/components/LoadingOverlay/LoadingOverlay";
 import { AsyncOp } from "utils/AsyncOp";
-import { Group } from "domain/GroupDomain";
-import { getGroups } from "persistence/groupPersistence";
+import { getGroups, ExtendedGroup } from "persistence/groupPersistence";
 
 function Groups(): JSX.Element {
-    const [groups, setGroups] = useState<AsyncOp<Group[], null>>({ status: "pending" });
+    const [groups, setGroups] = useState<AsyncOp<ExtendedGroup[], null>>({ status: "pending" });
 
     const handleGetGroups = async () => {
         setGroups({ status: "in-progress" });
@@ -53,6 +52,7 @@ function Groups(): JSX.Element {
                             <TableRow>
                                 <TableCell>Id</TableCell>
                                 <TableCell>Group name</TableCell>
+                                <TableCell>Total Users</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -76,6 +76,9 @@ function Groups(): JSX.Element {
                                                 sx={{ maxWidth: "220px" }}
                                             >
                                                 {group.name}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {group.userCount}
                                             </TableCell>
                                         </TableRow>
                                     );

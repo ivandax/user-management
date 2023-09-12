@@ -1,10 +1,19 @@
 import { Group } from "domain/GroupDomain";
-import { persistedGroupsResource } from "./mockDatabase";
+import { persistedGroupsResource, persistedUsersResource } from "./mockDatabase";
 
-export function getGroups(): Promise<Group[]> {
+function getUsersOfGroup(groupId: number) {
+    return persistedUsersResource.filter((user) => user.groupIds.includes(groupId));
+}
+
+export type ExtendedGroup = Group & { userCount: number };
+
+export function getGroups(): Promise<ExtendedGroup[]> {
     return new Promise((res) => {
+        const extendedGroups: ExtendedGroup[] = persistedGroupsResource.map((group) => {
+            return { ...group, userCount: getUsersOfGroup(group.id).length };
+        });
         setTimeout(() => {
-            res(persistedGroupsResource);
+            res(extendedGroups);
         }, 3000);
     });
 }

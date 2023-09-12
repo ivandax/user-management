@@ -20,14 +20,14 @@ import { ExtendedUser, getUsers } from "persistence/userPersistence";
 function Users(): JSX.Element {
     const [users, setUsers] = useState<AsyncOp<ExtendedUser[], null>>({ status: "pending" });
 
-    const handleGetGroups = async () => {
+    const handleGetUsers = async () => {
         setUsers({ status: "in-progress" });
         const result = await getUsers();
         setUsers({ status: "successful", data: result });
     };
 
     useEffect(() => {
-        handleGetGroups();
+        handleGetUsers();
     }, []);
 
     return (
