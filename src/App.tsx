@@ -1,7 +1,8 @@
+import { Root } from "presentation/views/Root/Root";
 import React from "react";
 
 function App() {
-  return <div>Hello World</div>;
+    return <Root />;
 }
 
 export default App;
