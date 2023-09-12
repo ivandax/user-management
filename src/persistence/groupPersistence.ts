@@ -1,5 +1,6 @@
 import { Group } from "domain/GroupDomain";
 import { persistedGroupsResource, persistedUsersResource } from "./mockDatabase";
+import { getNewIdFromResource } from "utils/ids";
 
 function getUsersOfGroup(groupId: number) {
     return persistedUsersResource.filter((user) => user.groupIds.includes(groupId));
@@ -22,7 +23,7 @@ export function addGroup(groupName: string): Promise<void> {
     return new Promise((res) => {
         setTimeout(() => {
             persistedGroupsResource.push({
-                id: persistedGroupsResource.length,
+                id: getNewIdFromResource(persistedUsersResource),
                 name: groupName,
             });
             res();

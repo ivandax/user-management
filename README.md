@@ -20,7 +20,7 @@ To start in development mode:
 
 ## About the development
 
- - Special focus was put in handling the async tasks properly a,d routing around the app.
+ - Special focus was put in handling the async tasks properly and routing around the app
  - We use the AsyncOp type to track the different possible statuses of an async task
  - The project uses Domain Driven architecture. We have layers for:
     - Domain (Types which represent our business concepts).
