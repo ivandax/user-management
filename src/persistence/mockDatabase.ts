@@ -9,10 +9,10 @@ const persistedGroupsResource: Group[] = [
 ];
 
 const persistedUsersResource: User[] = [
-    { id: 1, name: "John Wick", groupIds: [0] },
-    { id: 2, name: "Edward Hyde", groupIds: [0, 1] },
-    { id: 3, name: "Macklemore", groupIds: [0, 2] },
-    { id: 4, name: "Luke Skywalker", groupIds: [0, 3] },
+    { id: 0, name: "John Wick", groupIds: [0] },
+    { id: 1, name: "Edward Hyde", groupIds: [0, 1] },
+    { id: 2, name: "Macklemore", groupIds: [0, 2] },
+    { id: 3, name: "Luke Skywalker", groupIds: [0, 3] },
 ];
 
 export { persistedGroupsResource, persistedUsersResource };
