@@ -42,7 +42,7 @@ To start in development mode:
  ## Points of improvement
 
  - There is an error when trying ot edit an existing user, where the same group is selectable again.
- - All the mock async functiona resolve successfully after a timeout. In real life, we would need to implement proper error handling (Note that type AsyncOp) supports both success and error.
+ - All the mock async functions resolve successfully after a timeout. In real life, we would need to implement proper error handling (Note that type AsyncOp supports both success and error).
  - Lists have no pagination
  - No testing was added.
  - Styling needs to be improved, like the display of the links and the effects while reloading data, or the table size.
