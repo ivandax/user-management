@@ -9,6 +9,7 @@ import {
     TableRow,
     Paper,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 import { Header } from "presentation/components/Header/Header";
 import { ViewContainer } from "presentation/components/ViewContainer/ViewContainer";
@@ -35,6 +36,17 @@ function Groups(): JSX.Element {
             <Header />
             <ViewContainer>
                 {groups.status === "in-progress" ? <LoadingOverlay /> : null}
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "100%",
+                        paddingBottom: "8px",
+                        justifyContent: "flex-end",
+                    }}
+                >
+                    <Link to="/add-group">Add group</Link>
+                </Box>
                 <TableContainer component={Paper} sx={{ overflow: "auto", height: "100%" }}>
                     <Table sx={{ width: 650 }} aria-label="tasks table" stickyHeader>
                         <TableHead>

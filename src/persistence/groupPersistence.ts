@@ -8,3 +8,16 @@ export function getGroups(): Promise<Group[]> {
         }, 3000);
     });
 }
+
+export function addGroup(groupName: string): Promise<void> {
+    return new Promise((res) => {
+        setTimeout(() => {
+            persistedGroupsResource.push({
+                id: persistedGroupsResource.length + 1,
+                name: groupName,
+            });
+            res();
+            console.log(persistedGroupsResource);
+        }, 3000);
+    });
+}
