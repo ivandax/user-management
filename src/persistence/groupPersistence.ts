@@ -23,9 +23,20 @@ export function addGroup(groupName: string): Promise<void> {
     return new Promise((res) => {
         setTimeout(() => {
             persistedGroupsResource.push({
-                id: getNewIdFromResource(persistedUsersResource),
+                id: getNewIdFromResource(persistedGroupsResource),
                 name: groupName,
             });
+            res();
+            console.log(persistedGroupsResource);
+        }, 3000);
+    });
+}
+
+export function deleteGroup(groupId: number): Promise<void> {
+    return new Promise((res) => {
+        setTimeout(() => {
+            const index = persistedGroupsResource.findIndex((user) => user.id === groupId);
+            persistedGroupsResource.splice(index, 1);
             res();
             console.log(persistedGroupsResource);
         }, 3000);

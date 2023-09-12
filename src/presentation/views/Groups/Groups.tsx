@@ -8,17 +8,22 @@ import {
     TableHead,
     TableRow,
     Paper,
+    IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Delete as DeleteIcon } from "@mui/icons-material";
 
 import { Header } from "presentation/components/Header/Header";
 import { ViewContainer } from "presentation/components/ViewContainer/ViewContainer";
 import { LoadingOverlay } from "presentation/components/LoadingOverlay/LoadingOverlay";
 import { AsyncOp } from "utils/AsyncOp";
-import { getGroups, ExtendedGroup } from "persistence/groupPersistence";
+import { getGroups, ExtendedGroup, deleteGroup } from "persistence/groupPersistence";
 
 function Groups(): JSX.Element {
     const [groups, setGroups] = useState<AsyncOp<ExtendedGroup[], null>>({ status: "pending" });
+    const [deleteGroupTask, setDeleteGroupTask] = useState<AsyncOp<null, null>>({
+        status: "pending",
+    });
 
     const handleGetGroups = async () => {
         setGroups({ status: "in-progress" });
@@ -30,11 +35,20 @@ function Groups(): JSX.Element {
         handleGetGroups();
     }, []);
 
+    const handleDeleteGroup = async (id: number) => {
+        setDeleteGroupTask({ status: "in-progress" });
+        await deleteGroup(id);
+        setDeleteGroupTask({ status: "successful", data: null });
+        handleGetGroups();
+    };
+
     return (
         <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
             <Header />
             <ViewContainer>
-                {groups.status === "in-progress" ? <LoadingOverlay /> : null}
+                {groups.status === "in-progress" || deleteGroupTask.status === "in-progress" ? (
+                    <LoadingOverlay />
+                ) : null}
                 <Box
                     sx={{
                         display: "flex",
@@ -53,6 +67,7 @@ function Groups(): JSX.Element {
                                 <TableCell>Id</TableCell>
                                 <TableCell>Group name</TableCell>
                                 <TableCell>Total Users</TableCell>
+                                <TableCell>Actions</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -79,6 +94,18 @@ function Groups(): JSX.Element {
                                             </TableCell>
                                             <TableCell component="th" scope="row">
                                                 {group.userCount}
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                <IconButton
+                                                    edge="start"
+                                                    color="inherit"
+                                                    aria-label="menu"
+                                                    sx={{ mr: 2 }}
+                                                    onClick={() => handleDeleteGroup(group.id)}
+                                                    disabled={group.userCount !== 0}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
                                             </TableCell>
                                         </TableRow>
                                     );
