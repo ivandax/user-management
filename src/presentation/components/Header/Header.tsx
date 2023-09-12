@@ -1,9 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AppBar, Toolbar, Button, Typography } from "@mui/material";
 
 function Header(): JSX.Element {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleGoToGroups = (): void => {
         navigate("/");
@@ -17,7 +18,7 @@ function Header(): JSX.Element {
             <AppBar position="static">
                 <Toolbar variant="dense">
                     <Typography variant="h6" color="inherit" component="div" sx={{ flexGrow: 1 }}>
-                        User Management
+                        {location.pathname === "/" ? "Groups List" : "Users List"}
                     </Typography>
                     <Button onClick={handleGoToGroups} sx={{ color: "white" }}>
                         Groups

@@ -13,7 +13,7 @@ export function addGroup(groupName: string): Promise<void> {
     return new Promise((res) => {
         setTimeout(() => {
             persistedGroupsResource.push({
-                id: persistedGroupsResource.length + 1,
+                id: persistedGroupsResource.length,
                 name: groupName,
             });
             res();
