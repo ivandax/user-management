@@ -47,7 +47,7 @@ function Groups(): JSX.Element {
                     <Link to="/add-group">Add group</Link>
                 </Box>
                 <TableContainer component={Paper} sx={{ overflow: "auto", height: "100%" }}>
-                    <Table sx={{ width: 650 }} aria-label="tasks table" stickyHeader>
+                    <Table aria-label="groups table" stickyHeader>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Id</TableCell>

@@ -61,7 +61,7 @@ function Users(): JSX.Element {
                     <Link to="/add-user">Add user</Link>
                 </Box>
                 <TableContainer component={Paper} sx={{ overflow: "auto", height: "100%" }}>
-                    <Table sx={{ width: 650 }} aria-label="tasks table" stickyHeader>
+                    <Table aria-label="users table" stickyHeader>
                         <TableHead>
                             <TableRow>
                                 <TableCell>Id</TableCell>
