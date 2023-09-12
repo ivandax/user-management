@@ -22,7 +22,7 @@ export function getUsers(): Promise<ExtendedUser[]> {
                 return { ...user, groups: user.groupIds.map(groupIdToGroupInfo) };
             });
             res(extendedUsers);
-        }, 3000);
+        }, 1500);
     });
 }
 
@@ -36,7 +36,7 @@ export function addUser(userName: string, groupIds: number[]): Promise<void> {
             });
             res();
             console.log(persistedUsersResource);
-        }, 3000);
+        }, 1500);
     });
 }
 
@@ -47,6 +47,31 @@ export function deleteUser(userId: number): Promise<void> {
             persistedUsersResource.splice(index, 1);
             res();
             console.log(persistedUsersResource);
-        }, 3000);
+        }, 1500);
+    });
+}
+
+export function getUserById(userId: string): Promise<User> {
+    return new Promise((res) => {
+        const user = persistedUsersResource.find((user) => user.id === parseInt(userId));
+        setTimeout(() => {
+            if (user) {
+                res(user);
+            }
+            console.log(persistedUsersResource);
+        }, 1500);
+    });
+}
+
+export function editUser(user: User): Promise<void> {
+    return new Promise((res) => {
+        setTimeout(() => {
+            const index = persistedUsersResource.findIndex(
+                (existingUser) => existingUser.id === user.id
+            );
+            persistedUsersResource[index] = user;
+            res();
+            console.log(persistedUsersResource);
+        }, 1500);
     });
 }

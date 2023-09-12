@@ -10,8 +10,8 @@ import {
     Paper,
     IconButton,
 } from "@mui/material";
-import { Delete as DeleteIcon } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Header } from "presentation/components/Header/Header";
 import { ViewContainer } from "presentation/components/ViewContainer/ViewContainer";
@@ -20,6 +20,7 @@ import { AsyncOp } from "utils/AsyncOp";
 import { ExtendedUser, getUsers, deleteUser } from "persistence/userPersistence";
 
 function Users(): JSX.Element {
+    const navigate = useNavigate();
     const [users, setUsers] = useState<AsyncOp<ExtendedUser[], null>>({ status: "pending" });
     const [deleteUserTask, setDeleteUserTask] = useState<AsyncOp<null, null>>({
         status: "pending",
@@ -104,6 +105,17 @@ function Users(): JSX.Element {
                                                     onClick={() => handleDeleteUser(user.id)}
                                                 >
                                                     <DeleteIcon />
+                                                </IconButton>
+                                                <IconButton
+                                                    edge="start"
+                                                    color="inherit"
+                                                    aria-label="menu"
+                                                    sx={{ mr: 2 }}
+                                                    onClick={() =>
+                                                        navigate(`/edit-user/${user.id}`)
+                                                    }
+                                                >
+                                                    <EditIcon />
                                                 </IconButton>
                                             </TableCell>
                                         </TableRow>

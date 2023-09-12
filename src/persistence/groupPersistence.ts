@@ -15,7 +15,7 @@ export function getGroups(): Promise<ExtendedGroup[]> {
         });
         setTimeout(() => {
             res(extendedGroups);
-        }, 3000);
+        }, 1500);
     });
 }
 
@@ -28,7 +28,7 @@ export function addGroup(groupName: string): Promise<void> {
             });
             res();
             console.log(persistedGroupsResource);
-        }, 3000);
+        }, 1500);
     });
 }
 
@@ -39,6 +39,6 @@ export function deleteGroup(groupId: number): Promise<void> {
             persistedGroupsResource.splice(index, 1);
             res();
             console.log(persistedGroupsResource);
-        }, 3000);
+        }, 1500);
     });
 }

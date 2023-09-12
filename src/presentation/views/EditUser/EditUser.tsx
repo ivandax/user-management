@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, TextField, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -11,9 +11,10 @@ import { Header } from "presentation/components/Header/Header";
 import { ViewContainer } from "presentation/components/ViewContainer/ViewContainer";
 import { LoadingOverlay } from "presentation/components/LoadingOverlay/LoadingOverlay";
 import { AsyncOp } from "utils/AsyncOp";
-import { addUser } from "persistence/userPersistence";
+import { getUserById, editUser } from "persistence/userPersistence";
 import { getGroups } from "persistence/groupPersistence";
 import { Group } from "domain/GroupDomain";
+import { User } from "domain/UserDomain";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -26,10 +27,13 @@ const MenuProps = {
     },
 };
 
-function AddUser(): JSX.Element {
+function EditUser(): JSX.Element {
     const navigate = useNavigate();
+    const params = useParams();
 
     const [groups, setGroups] = useState<AsyncOp<Group[], null>>({ status: "pending" });
+    const [persistedUser, setPersistedUser] = useState<AsyncOp<User, null>>({ status: "pending" });
+    const [editUserTask, setEditUserTask] = useState<AsyncOp<null, null>>({ status: "pending" });
 
     const handleGetGroups = async () => {
         setGroups({ status: "in-progress" });
@@ -37,14 +41,30 @@ function AddUser(): JSX.Element {
         setGroups({ status: "successful", data: result });
     };
 
+    const handleGetPersistedUser = async () => {
+        if (params.userId) {
+            setPersistedUser({ status: "in-progress" });
+            const result = await getUserById(params.userId);
+            setUserName(result.name);
+            setSelectedGroups(
+                result.groupIds.filter((num) => num !== 0).map((id) => id.toString())
+            );
+            setPersistedUser({ status: "successful", data: result });
+        }
+    };
+
     useEffect(() => {
         handleGetGroups();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const [addUserTask, setAddUserTask] = useState<AsyncOp<null, null>>({ status: "pending" });
+    useEffect(() => {
+        handleGetPersistedUser();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const [userName, setUserName] = useState("");
     const [userNameError, setUserNameError] = useState<string | null>(null);
-
     const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
 
     const handleChange = (event: SelectChangeEvent<string[]>) => {
@@ -59,13 +79,16 @@ function AddUser(): JSX.Element {
             setUserNameError("Name is required");
             return;
         }
-        setAddUserTask({ status: "in-progress" });
-        await addUser(
-            userName,
-            selectedGroups.map((string) => parseInt(string))
-        );
-        setAddUserTask({ status: "successful", data: null });
-        navigate("/users");
+        if (persistedUser.status === "successful") {
+            setEditUserTask({ status: "in-progress" });
+            await editUser({
+                ...persistedUser.data,
+                name: userName,
+                groupIds: selectedGroups.map((string) => parseInt(string)),
+            });
+            setEditUserTask({ status: "successful", data: null });
+            navigate("/users");
+        }
     };
 
     return (
@@ -73,8 +96,10 @@ function AddUser(): JSX.Element {
             <Header />
             <ViewContainer>
                 <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-                    <Typography variant="h5">Add a user</Typography>
-                    {addUserTask.status === "in-progress" || groups.status === "in-progress" ? (
+                    <Typography variant="h5">Edit user</Typography>
+                    {editUserTask.status === "in-progress" ||
+                    groups.status === "in-progress" ||
+                    persistedUser.status === "in-progress" ? (
                         <LoadingOverlay />
                     ) : null}
                     <TextField
@@ -143,4 +168,4 @@ function AddUser(): JSX.Element {
     );
 }
 
-export { AddUser };
+export { EditUser };
